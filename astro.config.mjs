@@ -6,7 +6,10 @@ export default defineConfig({
 	site: 'https://khushiraj-physics.github.io',
 	integrations: [mdx(), sitemap()],
 	markdown: {
-		// Prevents hidden Mac system files from crashing your build
 		drafts: true
+	},
+	// This restores the font settings the template needs to stop crashing
+	experimental: {
+		assets: true
 	}
 });
