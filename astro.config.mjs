@@ -7,9 +7,5 @@ export default defineConfig({
 	integrations: [mdx(), sitemap()],
 	markdown: {
 		drafts: true
-	},
-	// This restores the font settings the template needs to stop crashing
-	experimental: {
-		assets: true
 	}
 });
