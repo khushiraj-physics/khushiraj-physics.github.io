@@ -1,14 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
@@ -16,97 +14,56 @@ const posts = (await getCollection('blog')).sort(
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
+		<style is:global>
+			*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+			:root {
+				--ink: #0f0e0c; --ink-muted: #6b6860; --ink-faint: #b8b5ae;
+				--bg: #faf9f6; --accent: #1a3a5c; --accent-light: #e8eef5; --rule: rgba(0,0,0,0.1);
+				--serif: 'EB Garamond', Georgia, serif; --mono: 'DM Mono', monospace;
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
+			body { font-family: var(--serif); background: var(--bg); color: var(--ink); line-height: 1.7; }
+
+			.section { max-width: 780px; margin: 0 auto; padding: 3rem 2rem; }
+			.page-hero { max-width: 780px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 0.5px solid var(--rule); }
+			.page-hero h1 { font-size: 2.5rem; font-weight: 400; margin-bottom: 0.5rem; }
+			.page-hero h1 em { font-style: italic; color: var(--ink-muted); }
+			.page-hero p { font-style: italic; color: var(--ink-muted); font-size: 1.1rem; margin: 0; }
+
+			/* This styles the list to look like cards */
+			.journal-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 0.5px solid var(--rule); border-radius: 12px; overflow: hidden; margin-top: 2rem; }
+
+			/* This makes the whole card clickable and styled */
+			.journal-entry { text-decoration: none; background: var(--bg); padding: 1.6rem 1.8rem; display: flex; gap: 2rem; transition: background 0.15s; color: inherit; cursor: pointer; display: block; }
+			.journal-entry:hover { background: var(--accent-light); }
+
+			.entry-date { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); margin-bottom: 0.5rem; display: block; }
+			.entry-title { font-size: 1.4rem; font-style: italic; color: var(--ink); margin-bottom: 0.5rem; margin-top: 0; font-weight: 500; }
+			.entry-excerpt { font-size: 1rem; color: var(--ink-muted); margin: 0; }
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+			<div class="page-hero">
+				<h1>Research <em>Journal</em></h1>
+				<p>A living record of research notes, paper reflections, and explorations of ideas encountered along the way.</p>
+			</div>
+
+			<section class="section">
+				<div class="journal-list">
+					{posts.map((post) => (
+						/* Safely grabs either the new or old Astro ID so links actually work */
+						<a href={`/blog/${post.slug || post.id}/`} class="journal-entry">
+							<span class="entry-date">
+								{post.data.pubDate.toLocaleDateString('en-us', { month: 'short', year: 'numeric' })}
+							</span>
+							<div class="entry-body">
+								<h3 class="entry-title">{post.data.title}</h3>
+								<p class="entry-excerpt">{post.data.description}</p>
+							</div>
+						</a>
+					))}
+				</div>
 			</section>
 		</main>
 		<Footer />

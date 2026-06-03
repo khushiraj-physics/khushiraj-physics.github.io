@@ -1,6 +1,6 @@
 ---
-title: 'Mutually Unibiased Bases'
-description: 'A New Proof for the Existence of Mutually Unibiased Bases.'
+title: 'Test article 1'
+description: 'Welcome to my brand new blog!'
 pubDate: 'Jun 02 2026'
 ---
 

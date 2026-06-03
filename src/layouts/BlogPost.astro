@@ -1,82 +1,65 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
+		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
+			*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+			:root {
+				--ink: #0f0e0c; --ink-muted: #6b6860; --ink-faint: #b8b5ae;
+				--bg: #faf9f6; --bg-warm: #f3f0e8; --accent: #1a3a5c;
+				--accent-light: #e8eef5; --rule: rgba(0,0,0,0.1);
+				--serif: 'EB Garamond', Georgia, serif; --mono: 'DM Mono', monospace;
 			}
-			.hero-image {
-				width: 100%;
+			body { font-family: var(--serif); background: var(--bg); color: var(--ink); font-size: 17px; line-height: 1.7; min-height: 100vh; }
+
+			/* Global Navbar styling */
+			nav {
+				position: sticky; top: 0; z-index: 100;
+				background: rgba(250,249,246,0.94); backdrop-filter: blur(8px);
+				display: flex; align-items: center; justify-content: center; padding: 14px 2rem;
+				border-bottom: 0.5px solid var(--rule);
 			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+			.nav-pill {
+				display: flex; align-items: center; background: white;
+				border: 0.5px solid rgba(0,0,0,0.12); border-radius: 50px;
+				padding: 4px; gap: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
+			.nav-pill a {
+				display: block; padding: 7px 18px; font-family: var(--mono);
+				font-size: 12px; font-weight: 300; letter-spacing: 0.03em;
+				color: #888; text-decoration: none; border-radius: 40px; transition: all 0.18s;
 			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
+			.nav-pill a:hover { color: var(--ink); background: rgba(0,0,0,0.04); }
+			.nav-pill a.active { background: #1a1a1a; color: white; }
+
+			.article-container { max-width: 680px; margin: 0 auto; padding: 4rem 2rem; }
+			.meta { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 1rem; }
+			h1 { font-size: 2.5rem; font-weight: 400; font-style: italic; line-height: 1.2; margin-bottom: 2rem; color: var(--ink); }
+			.content :global(p) { margin-bottom: 1.5rem; }
+			.content :global(h2) { font-size: 1.5rem; font-weight: 400; margin: 2rem 0 1rem; }
 		</style>
 	</head>
 
 	<body>
 		<Header />
-		<main>
+		<main class="article-container">
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				<div class="meta">
+					{pubDate.toLocaleDateString('en-us', { month: 'short', day: 'numeric', year: 'numeric' })}
 				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
+				<h1>{title}</h1>
+				<div class="content">
 					<slot />
 				</div>
 			</article>

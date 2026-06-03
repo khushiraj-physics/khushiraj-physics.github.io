@@ -1,0 +1,44 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="page">
+			<div class="page-hero">
+				<h1>Get in <em>touch</em></h1>
+				<p>I'm always happy to discuss physics, research, and related topics.</p>
+			</div>
+
+			<section class="section">
+				<div class="contact-grid">
+					<div class="contact-card">
+						<p class="contact-label">Email</p>
+						<p class="contact-value"><a href="mailto:khushi@iiserbpr.ac.in">khushi23@iiserbpr.ac.in</a></p>
+					</div>
+					<div class="contact-card">
+						<p class="contact-label">GitHub</p>
+						<p class="contact-value"><a href="https://github.com/khushiraj-physics" target="_blank">github.com/khushiraj</a></p>
+					</div>
+					<div class="contact-card">
+						<p class="contact-label">Linkdein</p>
+						<p class="contact-value"><a href="https://www.linkedin.com/in/khushiraj3/" target="_blank">linkdein.com/khushiraj</a></p>
+					</div>
+					<div class="contact-card">
+						<p class="contact-label">Institution</p>
+						<p class="contact-value">IISER Berhampur, Odisha</p>
+					</div>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
