@@ -18,7 +18,7 @@ An orthogonal quantum measurement performed on such a system has d possible outc
 <br><br>
 Ivanovic first introduced the concept of MUB in the context of quantum state determination, and later Wootters and Fields showed that measurements in MUB provide the minimal as well as optimal way of complete specification of the density matrix. Optimality means minimization of statistical errors in the measurements. By explicit construction, they showed the existence of complete sets of MUBs in prime-power dimensions and proved that for any dimension $p^k$, there can be at most $p^k + 1$ MUB.
 <br><br>
-## 2. Definition
+## 2. <span class="define-term" data-def="Let the system be prepared in state |φᵢ⟩ from basis ℬ₁, and measured in ℬ₂. For these to be mutually unbiased, each outcome must be equally likely. Therefore: P(ψ₁|φᵢ) = P(ψ₂|φᵢ) = ... = p. Since all probabilities must sum to 1, we know that ΣP(ψ_j|φᵢ) = 1. This means dp = 1, which gives us the final result: p = 1/d.">Definition</span>
 <br>
 
 Let $\mathcal{B}_1 = \{|\phi_1\rangle, \dots, |\phi_d\rangle\}$ and $\mathcal{B}_2 = \{|\psi_1\rangle, \dots, |\psi_d\rangle\}$ be two orthonormal bases in the $d$-dimensional state space. They are said to be **mutually unbiased bases (MUB)** if and only if $$\left|\langle\phi_i | \psi_j\rangle\right| = \frac{1}{\sqrt{d}}$$ for every $i, j = 1, \dots, d$. A set $\{\mathcal{B}_1, \dots, \mathcal{B}_m\}$ of orthonormal bases in $\mathbb{C}^d$ is called a <i>set of mutually unbiased bases</i> (a set of MUB) if each pair of bases $\mathcal{B}_i$ and $\mathcal{B}_j$ are mutually unbiased.
